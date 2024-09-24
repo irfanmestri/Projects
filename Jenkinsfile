@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('aws_access_key')  // AWS Credentials stored in Jenkins
-        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key')  // AWS Credentials stored in Jenkins
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git url: 'https://github.com/irfanmestri/projects.git', branch: 'main'
+                git url: 'https://github.com/yeshwanthlm/Terraform-Jenkins.git', branch: 'main'
             }
         }
 
@@ -47,7 +47,9 @@ pipeline {
 
     post {
         always {
-            cleanWs()
+           node {
+                cleanWs()
+            }
         }
     }
 }
