@@ -1,15 +1,15 @@
 pipeline {
     agent any
-    
+
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY')   // Jenkins credentials
-        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_KEY')
+        AWS_ACCESS_KEY_ID     = credentials('aws_access_key')  // AWS Credentials stored in Jenkins
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
     }
 
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/irfanmestri/projects.git'
+                git url: 'https://github.com/irfanmestri/projects.git', branch: 'main'
             }
         }
 
@@ -19,24 +19,35 @@ pipeline {
             }
         }
 
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan'
+            }
+        }
+
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -auto-approve'
+                script {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Terraform Destroy') {
+            when {
+                expression {
+                    return params.DESTROY
+                }
+            }
+            steps {
+                sh 'terraform destroy'
             }
         }
     }
 
     post {
         always {
-            node {
-                cleanWs() // Clean workspace after build
-            }
-        }
-        success {
-            echo 'Pipeline succeeded.'
-        }
-        failure {
-            echo 'Pipeline failed.'
+            cleanWs()
         }
     }
 }
