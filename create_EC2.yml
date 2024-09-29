@@ -14,6 +14,9 @@
         count: 1
         security_group: default
 
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+
         tags:
           Name: MyAnsible_CreatedEC2
       register: ec2_instance
