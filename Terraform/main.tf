@@ -6,7 +6,7 @@ terraform {
   
 backend "s3" {
 
-    bucket = "netflixproject1"
+    bucket = "netflixproject2"
     key = "irfanJenkins/terraform.tfstate"
     region = "us-east-1"
 
