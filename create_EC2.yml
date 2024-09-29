@@ -6,7 +6,7 @@
 
     - name: Create an EC2 instance
       amazon.aws.ec2_instance:
-        key_name: mykeys
+        key_name: mykey
         instance_type: t2.micro
         region: us-east-1
         image_id: ami-0e86e20dae9224db8  # Ubuntu AMI, adjust based on your region
