@@ -14,7 +14,7 @@
         count: 1
         security_group: default
 
-        instance_tags:
+        tags:
           Name: MyAnsible_CreatedEC2
       register: ec2_instance
 
